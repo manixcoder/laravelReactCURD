@@ -1,12 +1,13 @@
+
 import NavBar from "./components/NavBar/NavBar";
-import Users from "./components/Users/Users";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
   return (
     <>
-    <NavBar/>
-    <Users/>
+      <NavBar />
+     
     </>
   );
 }

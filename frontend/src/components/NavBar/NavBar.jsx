@@ -1,23 +1,37 @@
-import React from 'react'
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom'
+import Home from '../Home';
+import Users from '../Users/Users';
+import CreatUsers from '../Users/CreateUsers';
 
 const NavBar = () => {
     return (
         <>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="/">Navbar</a>
+            <nav className="navbar navbar-dark bg-dark">
+                <div className="navbar-nav mr-auto">
+                    <li>
+                        <Link to={'/'} className='nav-item'>Home</Link>
+                    </li>
 
+                    <li>
+                        <Link to={'/users'} className='nav-item'>Users</Link>
+                    </li>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/users">Users</a>
-                        </li>
-                    </ul>
+                    <li>
+                        <Link to={'/createusers'} className='nav-item'>Create Users</Link>
+                    </li>
                 </div>
             </nav>
+            <div className="container">
+                <Routes>
+                    <Route path='/' element={<Home />} ></Route>
+                    <Route path='/users' element={<Users />}></Route>
+                    <Route path='/createusers' element={<CreatUsers />}></Route>
+                </Routes>
+            </div>
+
+
+
         </>
     )
 }
