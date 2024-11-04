@@ -12,7 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(User::get());
+        return response()->json(User::latest()->get());
     }
 
     /**
@@ -28,7 +28,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+
+        return response()->json("Successfully created");
     }
 
     /**
@@ -44,7 +50,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return response()->json(User::whereId($id)->first());
     }
 
     /**
@@ -52,7 +58,14 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::whereId($id)->first();
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email
+        ]);
+
+        return response()->json('success');
     }
 
     /**
@@ -60,6 +73,17 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        try {
+            $user->delete();
+            return response()->json(['message' => 'User deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete user', 'details' => $e->getMessage()], 500);
+        }
     }
 }
