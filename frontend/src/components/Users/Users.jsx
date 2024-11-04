@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import http from '../http'
+import { Link } from 'react-router-dom';
 const Users = () => {
     const [users, setUsers] = useState([]);
 
@@ -14,7 +15,7 @@ const Users = () => {
     }
     return (
         <div>
-            
+            <Link className='btn btn-info justify ' to={{ pathname: "/createusers/" }}>Create user</Link>
             <h2>Users Listings...</h2>
             <table className='table'>
                 <thead>
@@ -26,12 +27,14 @@ const Users = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user,index)=>(
+                    {users.map((user, index) => (
                         <tr key={user.id}>
                             <td>{++index}</td>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
-                            <td>Edit</td>
+                            <td>
+                                <Link className='btn btn-info' to={{ pathname: "/edit/" + user.id }}>Edit</Link>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
