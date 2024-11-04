@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import http from '../http'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditUsers = (props) => {
     const navigate =useNavigate();
 
     const [inputs, setInputs] = useState({});
 
-    
+    const [users,setUsers]=useState([]);
+    const {id} = useParams();
+
+    useEffect(()=>{
+        fetchUser();
+    },[]);
+
+    const fetchUser = ()=>{
+        http.get('/users/'+id+'/edit').then((res)=>{
+            setInputs({
+                name:res.data.name,
+                email:res.data.email,
+            });
+        });
+    }
   
     const handleChange = (event) => {
       const name = event.target.name;
@@ -19,7 +33,7 @@ const EditUsers = (props) => {
     const submitForm = () => {
       console.log(inputs);
   
-      http.post('users', inputs).then((res) => {
+      http.put('users/'+id, inputs).then((res) => {
         navigate('/users')
       })
     }
@@ -39,10 +53,7 @@ const EditUsers = (props) => {
                             <input type="email" name="email" id="email" className="form-control" value={inputs.email || ''} onChange={handleChange} />
                         </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password</label>
-                            <input type="password" name="password" id="password" className="form-control" value={inputs.password || ''} onChange={handleChange} />
-                        </div>
+                        
 
                         <button type="button" onClick={submitForm} className="btn btn-info w-100 mt-3">Create</button>
                     </form>

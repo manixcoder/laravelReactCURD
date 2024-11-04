@@ -13,9 +13,15 @@ const Users = () => {
             setUsers(res.data);
         })
     }
+
+    const deleteUser=(id)=>{
+        http.delete('/users/'+id).then(res => {
+            fetchAllUsers();
+        })
+    }
     return (
         <div>
-            <Link className='btn btn-info justify ' to={{ pathname: "/createusers/" }}>Create user</Link>
+            <Link className='btn btn-info justify ' to={{ pathname: "/create-users/" }}>Create user</Link>
             <h2>Users Listings...</h2>
             <table className='table'>
                 <thead>
@@ -33,7 +39,9 @@ const Users = () => {
                             <td>{user.name}</td>
                             <td>{user.email}</td>
                             <td>
-                                <Link className='btn btn-info' to={{ pathname: "/edit/" + user.id }}>Edit</Link>
+                                <Link className='btn btn-info' to={{ pathname: "/edit/" + user.id }}>Edit</Link> &nbsp;
+                                <Link className='btn btn-info' to={{ pathname: "/view/" + user.id }}>View</Link> &nbsp; 
+                                <button type="button" className='btn btn-danger' onClick={()=>deleteUser(user.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
